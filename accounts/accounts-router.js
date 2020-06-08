@@ -21,16 +21,15 @@ router.get('/', (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-    // select * from posts where id = req.params.id
+
     knex
-        .from("posts")
+        .from("accounts")
         .select("*")
-        // .where("id", "=", req.params.id)
-        // .where("id", req.params.id)
+
         .where({ id: req.params.id })
         .first()
-        .then(post => {
-            res.status(200).json({ data: post });
+        .then(acc => {
+            res.status(200).json({ data: acc });
         })
         .catch(error => {
             console.log("GET / error", error);
@@ -40,10 +39,10 @@ router.get("/:id", (req, res) => {
 
 router.post('/', (req, res) => {
 
-    knex("posts")
+    knex("accounts")
         .insert(req.body, "id")
         .then(([id]) => {
-            res.status(201).json({ data: id })
+            res.status(201).json({ id: id })
         })
         .catch(error => {
             console.log("GET / error", error);
@@ -56,12 +55,12 @@ router.put('/:id', (req, res) => {
     const { id } = req.params;
     const changes = req.body;
 
-    knex('posts').where({ id }).update(changes)
+    knex('accounts').where({ id }).update(changes)
         .then(count => {
             if (count > 0) {
-                res.status(200).json({ message: 'record updated' })
+                res.status(200).json({ message: 'account updated' })
             } else {
-                res.status(404).json({ message: "no records were found" })
+                res.status(404).json({ message: "no accounts were found" })
             }
         }).catch(error => {
             console.log("GET / error", error);
@@ -72,14 +71,14 @@ router.put('/:id', (req, res) => {
 
 router.delete("/:id", (req, res) => {
     const { id } = req.params;
-    knex("posts")
-        .where({ id }) // if not using a where, all records will be removed
-        .del() // <----- don't forget this part
+    knex("accounts")
+        .where({ id })
+        .del()
         .then(count => {
             if (count > 0) {
-                res.status(200).json({ message: "record deleted successfully" });
+                res.status(200).json({ message: "account deleted successfully" });
             } else {
-                res.status(404).json({ message: "no records found" });
+                res.status(404).json({ message: "no accounts found" });
             }
         })
         .catch(error => {
