@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
     knex
         .select("*")
         .from("accounts")
+        .limit(req.query.limit)
         .then(acc => {
             res.status(200).json({ data: acc })
         })
