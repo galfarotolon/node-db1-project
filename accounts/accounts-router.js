@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
         })
         .catch(err => {
             console.log("GET / error", err)
-            res.status(500).json({ message: err.message })
+            res.status(500).json({ message: 'account list not found' })
         })
 
 });
@@ -33,7 +33,7 @@ router.get("/:id", (req, res) => {
         })
         .catch(error => {
             console.log("GET / error", error);
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ message: 'account id not found' });
         });
 });
 
@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
         })
         .catch(error => {
             console.log("GET / error", error);
-            res.status(500).json({ message: error.message });
+            res.status(404).json({ message: 'Cannot post at this time. Need to include a unique account name and a budget' });
         });
 
 });
@@ -58,9 +58,9 @@ router.put('/:id', (req, res) => {
     knex('accounts').where({ id }).update(changes)
         .then(count => {
             if (count > 0) {
-                res.status(200).json({ message: 'account updated' })
+                res.status(200).json({ message: 'account information updated' })
             } else {
-                res.status(404).json({ message: "no accounts were found" })
+                res.status(404).json({ message: "account could not be updated" })
             }
         }).catch(error => {
             console.log("GET / error", error);
